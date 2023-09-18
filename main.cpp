@@ -14,21 +14,21 @@ int main(int argc, char *argv[])
 
     QGraphicsScene scene;
     QGraphicsView view;
-    view.setScene(&scene);
 
-    QGraphicsRectItem * boundary = new QGraphicsRectItem(QRectF(0, 0, 400, 400));
-    boundary->setPen(QPen(Qt::black, 4));
+
+    QGraphicsRectItem * boundary = new QGraphicsRectItem(QRectF(0, 0, 400, 600));
+    boundary->setPen(QPen(Qt::black, 2));
     scene.addItem(boundary);
 
     QGraphicsRectItem * movableItem = new QGraphicsRectItem(QRectF(0, 0, 50, 50));
     movableItem->setBrush(QBrush(Qt::blue));
     movableItem->setPen(QPen(Qt::black, 1));
     scene.addItem(movableItem);
-    movableItem->setPos(30, 20);
+    movableItem->setPos(110, 20);
 
     QTimer moveTimer;
     QRectF boundaryRect = boundary->boundingRect();
-    QPointF velocity = QPointF(1, 2);
+    QPointF velocity = QPointF(1, 1.4);
     QObject::connect(&moveTimer, &QTimer::timeout, [movableItem, &boundaryRect, &velocity](){
         QRectF itemRect = movableItem->boundingRect().translated(movableItem->pos() + velocity);
         if (!boundaryRect.contains(itemRect)) {
@@ -63,8 +63,11 @@ int main(int argc, char *argv[])
     });
     traceTimer.start(50);
 
-
-    view.resize(600, 600);
+    view.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    view.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    view.setRenderHint(QPainter::Antialiasing);
+    view.setScene(&scene);
+    view.setFixedSize(scene.width() + 30, scene.height() + 30);
     view.show();
     return a.exec();
 }
