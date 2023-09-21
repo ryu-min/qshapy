@@ -1,60 +1,70 @@
 #include "shapyscene.h"
 
-#include <QGraphicsRectItem>
-#include <QTimer>
 #include <QPropertyAnimation>
-#include <QGraphicsColorizeEffect>
 
 shapy::Scene::Scene(QObject *parent)
     : QGraphicsScene(parent)
+    , m_boundary(new QGraphicsRectItem(QRectF(0, 0, 400, 400)))
+    , m_movableItem(new QGraphicsRectItem(QRectF(0, 0, 50, 50)))
+    , m_moveTimer()
+    , m_velocity(QPointF(1, 1.4))
+    , m_effect()
 {
-    QGraphicsRectItem * boundary = new QGraphicsRectItem(QRectF(0, 0, 400, 600));
-    boundary->setPen(QPen(Qt::black, 2));
-    addItem(boundary);
+    m_boundary->setPen(QPen(Qt::black, 2));
+    addItem(m_boundary);
 
-    QGraphicsRectItem * movableItem = new QGraphicsRectItem(QRectF(0, 0, 50, 50));
-    movableItem->setBrush(QBrush(Qt::blue));
-    movableItem->setPen(QPen(Qt::black, 1));
-    addItem(movableItem);
-    movableItem->setPos(110, 20);
+    m_movableItem->setBrush(QBrush(Qt::blue));
+    m_movableItem->setPen(QPen(Qt::black, 1));
+    addItem(m_movableItem);
+    m_movableItem->setPos(110, 20);
 
-    QTimer * moveTimer = new QTimer;
-    QPointF * velocity = new QPointF(1, 1.4);
-    QObject::connect(moveTimer, &QTimer::timeout, [=](){
-        QRectF boundaryRect = boundary->boundingRect();
-        QRectF itemRect = movableItem->boundingRect().translated(movableItem->pos() + *velocity);
-        if (!boundaryRect.contains(itemRect)) {
-            QPointF newPos = movableItem->pos() + *velocity;
-            if ( newPos.x() <= boundaryRect.left() ||
-                 newPos.x() + itemRect.width() >= boundaryRect.right() ) {
-                velocity->setX(-velocity->x());
-            }
-            if ( newPos.y() <= boundaryRect.top() ||
-                 newPos.y() + itemRect.height() >= boundaryRect.bottom() ) {
-                velocity->setY(-velocity->y());
-            }
-        }
-        movableItem->setPos( movableItem->pos() + *velocity);
-    });
-    moveTimer->start(10);
+    QObject::connect(&m_moveTimer, &QTimer::timeout, this, &shapy::Scene::moveItems);
+    m_moveTimer.start(10);
 
-    QGraphicsColorizeEffect * effect = new QGraphicsColorizeEffect;
-    movableItem->setGraphicsEffect(effect);
+    m_movableItem->setGraphicsEffect(&m_effect);
 
-    QPropertyAnimation * animation = new QPropertyAnimation(effect, "color");
+    QPropertyAnimation * animation = new QPropertyAnimation(&m_effect, "color", this);
     animation->setDuration(100000);
     animation->setStartValue(QBrush(Qt::red));
     animation->setKeyValueAt(0.5, QBrush(Qt::green));
     animation->setEndValue(QBrush(Qt::blue));
     animation->start();
 
-    QTimer * traceTimer = new QTimer;
-    QObject::connect(traceTimer, &QTimer::timeout, [=](){
-        addRect(movableItem->boundingRect().translated(movableItem->pos()),
-                      movableItem->pen(), QBrush(effect->color()));
-    });
-    traceTimer->start(50);
+    QObject::connect(&m_traceTimer, &QTimer::timeout, this, &shapy::Scene::drawTrace);
+    m_traceTimer.start(50);
+}
 
+void shapy::Scene::setBoundarySize(const QSize size)
+{
+    m_boundary->setRect(0, 0, size.width(), size.height());
+}
 
+QPointF shapy::Scene::getCenter()
+{
+    QRectF boundaryRect = m_boundary->rect();
+    return m_boundary->mapToScene(boundaryRect.center());
+}
 
+void shapy::Scene::moveItems()
+{
+    QRectF boundaryRect = m_boundary->boundingRect();
+    QRectF itemRect = m_movableItem->boundingRect().translated(m_movableItem->pos() + m_velocity);
+    if (!boundaryRect.contains(itemRect)) {
+        QPointF newPos = m_movableItem->pos() + m_velocity;
+        if ( newPos.x() <= boundaryRect.left() ||
+             newPos.x() + itemRect.width() >= boundaryRect.right() ) {
+            m_velocity.setX(-m_velocity.x());
+        }
+        if ( newPos.y() <= boundaryRect.top() ||
+             newPos.y() + itemRect.height() >= boundaryRect.bottom() ) {
+            m_velocity.setY(-m_velocity.y());
+        }
+    }
+    m_movableItem->setPos( m_movableItem->pos() + m_velocity);
+}
+
+void shapy::Scene::drawTrace()
+{
+    addRect(m_movableItem->boundingRect().translated(m_movableItem->pos()),
+                  m_movableItem->pen(), QBrush(m_effect.color()));
 }

@@ -8,6 +8,9 @@ namespace shapy
     {
     public:
         View(QWidget * parent = nullptr);
+
+    protected:
+        void resizeEvent(QResizeEvent *event) override;
     };
 }
 
