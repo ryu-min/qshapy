@@ -1,11 +1,14 @@
-#ifndef SHAPYSCENE_H
-#define SHAPYSCENE_H
+#pragma once
 
+#include <QGraphicsScene>
 
-class ShapyScene
+namespace shapy
 {
-public:
-    ShapyScene();
-};
+    class Scene : public QGraphicsScene
+    {
+    public:
+        Scene(QObject * parent = nullptr);
+    };
+}
 
-#endif // SHAPYSCENE_H
+
