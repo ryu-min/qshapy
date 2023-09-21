@@ -34,7 +34,7 @@ shapy::Scene::Scene(QObject *parent)
     m_traceTimer.start(50);
 }
 
-void shapy::Scene::setBoundarySize(const QSize size)
+void shapy::Scene::setBoundarySize(const QSize & size)
 {
     m_boundary->setRect(0, 0, size.width(), size.height());
 }

@@ -13,7 +13,7 @@ namespace shapy
     public:
         Scene(QObject * parent = nullptr);
 
-        void setBoundarySize(const QSize size);
+        void setBoundarySize(const QSize &size);
         QPointF getCenter();
 
     protected:

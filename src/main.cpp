@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     shapy::View view;
     view.setScene(&scene);
     view.show();
-    view.setMinimumSize(600, 600);
+    view.resize(300, 400);
 
     return a.exec();
 }

@@ -18,8 +18,7 @@ void shapy::View::resizeEvent(QResizeEvent *event)
     if (graphicsScene) {
         Scene * shapyScene = dynamic_cast<Scene*>(graphicsScene);
         Q_ASSERT(shapyScene);
-        shapyScene->setBoundarySize( event->size() - QSize(30, 30));
-        centerOn( mapFromScene(shapyScene->getCenter() ));
+        shapyScene->setBoundarySize( event->size() );
     }
 
 }
