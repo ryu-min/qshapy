@@ -4,7 +4,7 @@
 #include <QGraphicsRectItem>
 #include <QTimer>
 #include <QGraphicsColorizeEffect>
-
+#include <QPropertyAnimation>
 
 namespace shapy
 {
@@ -19,6 +19,11 @@ namespace shapy
     protected:
         void moveItems();
         void drawTrace();
+        void stopMoving();
+        void resumeMoving();
+
+    protected:
+        void keyPressEvent(QKeyEvent *event);
 
     protected:
         QGraphicsRectItem * m_boundary;
@@ -27,6 +32,7 @@ namespace shapy
         QPointF m_velocity;
         QGraphicsColorizeEffect m_effect;
         QTimer m_traceTimer;
+        QPropertyAnimation * m_animation;
     };
 }
 

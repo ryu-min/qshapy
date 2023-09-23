@@ -1,6 +1,6 @@
 #include "shapyscene.h"
 
-#include <QPropertyAnimation>
+#include <QKeyEvent>
 
 shapy::Scene::Scene(QObject *parent)
     : QGraphicsScene(parent)
@@ -9,8 +9,9 @@ shapy::Scene::Scene(QObject *parent)
     , m_moveTimer()
     , m_velocity(QPointF(1, 1.4))
     , m_effect()
+    , m_animation(nullptr)
 {
-    m_boundary->setPen(QPen(Qt::black, 2));
+    m_boundary->setPen(QPen(Qt::transparent, 0));
     addItem(m_boundary);
 
     m_movableItem->setBrush(QBrush(Qt::blue));
@@ -23,12 +24,12 @@ shapy::Scene::Scene(QObject *parent)
 
     m_movableItem->setGraphicsEffect(&m_effect);
 
-    QPropertyAnimation * animation = new QPropertyAnimation(&m_effect, "color", this);
-    animation->setDuration(100000);
-    animation->setStartValue(QBrush(Qt::red));
-    animation->setKeyValueAt(0.5, QBrush(Qt::green));
-    animation->setEndValue(QBrush(Qt::blue));
-    animation->start();
+    m_animation = new QPropertyAnimation(&m_effect, "color", this);
+    m_animation->setDuration(100000);
+    m_animation->setStartValue(QBrush(Qt::red));
+    m_animation->setKeyValueAt(0.5, QBrush(Qt::green));
+    m_animation->setEndValue(QBrush(Qt::blue));
+    m_animation->start();
 
     QObject::connect(&m_traceTimer, &QTimer::timeout, this, &shapy::Scene::drawTrace);
     m_traceTimer.start(50);
@@ -66,5 +67,31 @@ void shapy::Scene::moveItems()
 void shapy::Scene::drawTrace()
 {
     addRect(m_movableItem->boundingRect().translated(m_movableItem->pos()),
-                  m_movableItem->pen(), QBrush(m_effect.color()));
+            m_movableItem->pen(), QBrush(m_effect.color()));
+}
+
+void shapy::Scene::stopMoving()
+{
+    m_moveTimer.stop();
+    m_traceTimer.stop();
+    m_animation->pause();
+}
+
+void shapy::Scene::resumeMoving()
+{
+    m_moveTimer.start();
+    m_traceTimer.start();
+    m_animation->resume();
+}
+
+void shapy::Scene::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Space) {
+        if (m_moveTimer.isActive()) {
+            stopMoving();
+        } else {
+            resumeMoving();
+        }
+    }
+    QGraphicsScene::keyPressEvent(event);
 }
