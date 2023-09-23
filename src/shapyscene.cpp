@@ -14,25 +14,16 @@ shapy::Scene::Scene(QObject *parent)
     m_boundary->setPen(QPen(Qt::transparent, 0));
     addItem(m_boundary);
 
-    m_movableItem->setBrush(QBrush(Qt::blue));
+    m_movableItem->setBrush(QBrush(Qt::red));
     m_movableItem->setPen(QPen(Qt::black, 1));
     addItem(m_movableItem);
     m_movableItem->setPos(110, 20);
 
     QObject::connect(&m_moveTimer, &QTimer::timeout, this, &shapy::Scene::moveItems);
-    m_moveTimer.start(10);
 
-    m_movableItem->setGraphicsEffect(&m_effect);
 
-    m_animation = new QPropertyAnimation(&m_effect, "color", this);
-    m_animation->setDuration(100000);
-    m_animation->setStartValue(QBrush(Qt::red));
-    m_animation->setKeyValueAt(0.5, QBrush(Qt::green));
-    m_animation->setEndValue(QBrush(Qt::blue));
-    m_animation->start();
 
     QObject::connect(&m_traceTimer, &QTimer::timeout, this, &shapy::Scene::drawTrace);
-    m_traceTimer.start(50);
 }
 
 void shapy::Scene::setBoundarySize(const QSize & size)
@@ -79,9 +70,22 @@ void shapy::Scene::stopMoving()
 
 void shapy::Scene::resumeMoving()
 {
-    m_moveTimer.start();
-    m_traceTimer.start();
-    m_animation->resume();
+    /// for now this part is weard but it should leave inside item i guess
+    if ( !m_animation ) {
+        m_movableItem->setGraphicsEffect(&m_effect);
+        m_animation = new QPropertyAnimation(&m_effect, "color", this);
+        m_animation->setDuration(100000);
+        m_animation->setStartValue(QBrush(Qt::red));
+        m_animation->setKeyValueAt(0.5, QBrush(Qt::green));
+        m_animation->setEndValue(QBrush(Qt::blue));
+        m_animation->start();
+
+    } else {
+        m_animation->resume();
+    }
+
+    m_moveTimer.start(10);
+    m_traceTimer.start(50);
 }
 
 void shapy::Scene::keyPressEvent(QKeyEvent *event)
