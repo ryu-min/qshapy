@@ -33,6 +33,10 @@ namespace shapy
         QGraphicsRectItem * m_boundary;
         QTimer m_moveTimer;
         QTimer m_traceTimer;
+
+        /// tems are stored in a separate list rather than being read from the items()
+        ///  method for optimization purposes - all trace items are added as graphical objects
+        ///  that would need to be filtered.
         QList<GraphicsItem*> m_items;
     };
 }
