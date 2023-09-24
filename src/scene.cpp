@@ -9,14 +9,9 @@ shapy::Scene::Scene(QObject *parent)
     , m_traceTimer()
     , m_items()
 {
-    GraphicsRectItem * rectItem1  = new GraphicsRectItem;
-    rectItem1->setPos(15, 50);
-    addShapyItem(rectItem1);
-
-    GraphicsRectItem * rectItem2  = new GraphicsRectItem;    
-    rectItem2->setVelocity(QPointF(-1.0, -1.0));
-    rectItem2->setPos(0, 100);    
-    addShapyItem(rectItem2);
+    GraphicsRectItem * firstItem = new GraphicsRectItem;
+    firstItem->setPos(m_boundary->boundingRect().center() - QPointF(25, 25));
+    addShapyItem(firstItem);
 
     m_boundary->setPen(QPen(Qt::transparent, 0));
     addItem(m_boundary);

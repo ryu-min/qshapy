@@ -1,7 +1,9 @@
 #include "view.h"
-#include <QResizeEvent>
-
 #include "scene.h"
+#include "graphicsrectitem.h"
+
+#include <QResizeEvent>
+#include <QMenu>
 
 shapy::View::View(QWidget *parent)
     : QGraphicsView(parent)
@@ -21,4 +23,18 @@ void shapy::View::resizeEvent(QResizeEvent *event)
         shapyScene->setBoundarySize( event->size() );
     }
 
+}
+
+void shapy::View::contextMenuEvent(QContextMenuEvent *event)
+{
+    QMenu menu(this);
+    QAction *addAction = menu.addAction("Add Rectangle");
+    QAction *selectedAction = menu.exec(event->globalPos());
+    if (selectedAction == addAction) {
+        Scene * shapyScene = dynamic_cast<Scene*>(scene());
+        Q_ASSERT(shapyScene);
+        GraphicsRectItem * rectItem = new GraphicsRectItem;
+        rectItem->setPos(mapToScene(event->pos()));
+        shapyScene->addShapyItem(rectItem);
+    }
 }

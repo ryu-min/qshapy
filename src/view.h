@@ -11,6 +11,7 @@ namespace shapy
 
     protected:
         void resizeEvent(QResizeEvent *event) override;
+        void contextMenuEvent(QContextMenuEvent *event) override;
     };
 }
 
