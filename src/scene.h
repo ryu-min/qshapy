@@ -12,13 +12,14 @@ namespace shapy
 {
     class Scene : public QGraphicsScene
     {
+        Q_OBJECT
     public:
         Scene(QObject * parent = nullptr);
 
         void setBoundarySize(const QSize &size);
         QPointF getCenter();
 
-    protected:
+    protected slots:
         void moveItems();
         void moveItem(GraphicsItem * item, const QRectF & boundary);
         void drawTrace();

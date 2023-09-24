@@ -19,7 +19,7 @@ shapy::Scene::Scene(QObject *parent)
 
     GraphicsRectItem * rectItem2  = new GraphicsRectItem;
     rectItem2->setBrush(QBrush(Qt::red));
-    rectItem2->setVelocity(QPointF(0.5, -0.7));
+    rectItem2->setVelocity(QPointF(-1.0, 1.0));
     m_items.push_back(rectItem2);
     addItem(rectItem2);
 
@@ -80,8 +80,9 @@ void shapy::Scene::moveItem(GraphicsItem *item, const QRectF &boundary)
 
 void shapy::Scene::drawTrace()
 {
-    addRect(m_movableItem->boundingRect().translated(m_movableItem->pos()),
-            m_movableItem->pen(), QBrush(m_effect.color()));
+    for (GraphicsItem * item : m_items) {
+        item->drawTrace(this);
+    }
 }
 
 void shapy::Scene::stopMoving()
@@ -108,7 +109,7 @@ void shapy::Scene::resumeMoving()
     }
 
     m_moveTimer.start(10);
-    m_traceTimer.start(50);
+    m_traceTimer.start(10);
 }
 
 void shapy::Scene::keyPressEvent(QKeyEvent *event)

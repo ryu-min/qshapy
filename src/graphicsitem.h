@@ -5,6 +5,7 @@
 
 namespace shapy
 {
+    class Scene;
     class GraphicsItem : public QObject, public QAbstractGraphicsShapeItem
     {
         Q_OBJECT
@@ -18,6 +19,7 @@ namespace shapy
 
     public slots:
         void move();
+        virtual void drawTrace(Scene * scene) = 0;
 
     protected:
         QPointF m_velocity;
