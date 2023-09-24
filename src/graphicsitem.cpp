@@ -24,8 +24,14 @@ QPointF shapy::GraphicsItem::nextPos()
     return pos() + m_velocity;
 }
 
+QPointF shapy::GraphicsItem::prevPos()
+{
+    return pos() - m_velocity;
+}
+
 void shapy::GraphicsItem::move()
 {
+    update();
     setPos( nextPos() );
 }
 

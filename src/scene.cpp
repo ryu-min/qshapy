@@ -109,7 +109,7 @@ void shapy::Scene::resumeMoving()
     }
 
     m_moveTimer.start(10);
-    m_traceTimer.start(10);
+    m_traceTimer.start(50);
 }
 
 void shapy::Scene::keyPressEvent(QKeyEvent *event)

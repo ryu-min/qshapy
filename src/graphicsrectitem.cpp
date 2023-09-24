@@ -6,7 +6,9 @@
 
 shapy::GraphicsRectItem::GraphicsRectItem(QGraphicsItem *parent)
     : GraphicsItem(parent)
-{}
+{
+//    setPen(QPen(Qt::transparent, 0));
+}
 
 QRectF shapy::GraphicsRectItem::boundingRect() const
 {
@@ -25,5 +27,5 @@ void shapy::GraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphic
 
 void shapy::GraphicsRectItem::drawTrace(Scene *scene)
 {
-    scene->addRect(boundingRect().translated(pos()), pen(), brush());
+    scene->addRect(boundingRect().translated(prevPos()), QPen(Qt::black, 1), brush());
 }

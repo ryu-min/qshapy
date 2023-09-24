@@ -16,6 +16,7 @@ namespace shapy
         void setVelocity(const QPointF & v) noexcept;
 
         QPointF nextPos();
+        QPointF prevPos();
 
     public slots:
         void move();
