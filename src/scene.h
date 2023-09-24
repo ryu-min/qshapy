@@ -17,7 +17,7 @@ namespace shapy
         Scene(QObject * parent = nullptr);
 
         void setBoundarySize(const QSize &size);
-        QPointF getCenter();
+        void addShapyItem(GraphicsItem * item);
 
     protected slots:
         void moveItems();
