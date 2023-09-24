@@ -6,6 +6,8 @@
 #include <QGraphicsColorizeEffect>
 #include <QPropertyAnimation>
 
+#include "graphicsrectitem.h"
+
 namespace shapy
 {
     class Scene : public QGraphicsScene
@@ -33,6 +35,8 @@ namespace shapy
         QGraphicsColorizeEffect m_effect;
         QTimer m_traceTimer;
         QPropertyAnimation * m_animation;
+
+        QList<GraphicsItem*> m_items;
     };
 }
 

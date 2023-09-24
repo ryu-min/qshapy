@@ -11,6 +11,13 @@ shapy::Scene::Scene(QObject *parent)
     , m_effect()
     , m_animation(nullptr)
 {
+    GraphicsRectItem * rectItem  = new GraphicsRectItem;
+    rectItem->setBrush(QBrush(Qt::blue));
+    m_items.push_back(rectItem);
+    addItem(rectItem);
+
+    rectItem->setPos(50, 50);
+
     m_boundary->setPen(QPen(Qt::transparent, 0));
     addItem(m_boundary);
 
@@ -20,9 +27,6 @@ shapy::Scene::Scene(QObject *parent)
     m_movableItem->setPos(110, 20);
 
     QObject::connect(&m_moveTimer, &QTimer::timeout, this, &shapy::Scene::moveItems);
-
-
-
     QObject::connect(&m_traceTimer, &QTimer::timeout, this, &shapy::Scene::drawTrace);
 }
 

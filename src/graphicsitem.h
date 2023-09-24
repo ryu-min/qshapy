@@ -4,17 +4,10 @@
 
 namespace shapy
 {
-    class GraphicsItem : public QGraphicsItem
+    class GraphicsItem : public QAbstractGraphicsShapeItem
     {
     public:
         GraphicsItem(QGraphicsItem *parent = nullptr);
-
-    protected:
-        void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
-        void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
-
-    protected:
-        QPointF m_startMovingPos;
     };
 }
 
