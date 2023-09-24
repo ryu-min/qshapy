@@ -1,6 +1,7 @@
 #include "graphicsitem.h"
 
 #include <QGraphicsSceneMouseEvent>
+#include <QPen>
 
 #include <limits>
 
@@ -19,7 +20,8 @@ shapy::GraphicsItem::GraphicsItem(QGraphicsItem *parent)
     m_colorAnimation.setStartValue(QBrush(Qt::red));
     m_colorAnimation.setKeyValueAt(0.5, QBrush(Qt::green));
     m_colorAnimation.setEndValue(QBrush(Qt::blue));
-    setGraphicsEffect(&m_colorEffect);
+
+    setBrush(Qt::red);
 }
 
 QPointF shapy::GraphicsItem::velocity() const noexcept

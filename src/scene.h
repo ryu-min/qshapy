@@ -31,13 +31,8 @@ namespace shapy
 
     protected:
         QGraphicsRectItem * m_boundary;
-        QGraphicsRectItem * m_movableItem;
         QTimer m_moveTimer;
-        QPointF m_velocity;
-        QGraphicsColorizeEffect m_effect;
         QTimer m_traceTimer;
-        QPropertyAnimation * m_animation;
-
         QList<GraphicsItem*> m_items;
     };
 }

@@ -5,27 +5,21 @@
 shapy::Scene::Scene(QObject *parent)
     : QGraphicsScene(parent)
     , m_boundary(new QGraphicsRectItem(QRectF(0, 0, 400, 400)))
-    , m_movableItem(new QGraphicsRectItem(QRectF(0, 0, 50, 50)))
     , m_moveTimer()
-    , m_velocity(QPointF(1, 1.4))
-    , m_effect()
-    , m_animation(nullptr)
+    , m_traceTimer()
+    , m_items()
 {
     GraphicsRectItem * rectItem1  = new GraphicsRectItem;
-    rectItem1->setBrush(QBrush(Qt::blue));
     m_items.push_back(rectItem1);
     addItem(rectItem1);
+    rectItem1->setPos(300, 50);
 
 
     GraphicsRectItem * rectItem2  = new GraphicsRectItem;
-    rectItem2->setBrush(QBrush(Qt::red));
     rectItem2->setVelocity(QPointF(-1.0, 1.0));
     m_items.push_back(rectItem2);
     addItem(rectItem2);
-
-    rectItem1->setPos(300, 50);
     rectItem2->setPos(0, 100);
-
 
     m_boundary->setPen(QPen(Qt::transparent, 0));
     addItem(m_boundary);
