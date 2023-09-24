@@ -25,6 +25,7 @@ namespace shapy
         void drawTrace();
         void stopMoving();
         void startMoving();
+        void resolveItemCollisions();
 
     protected:
         void keyPressEvent(QKeyEvent *event);

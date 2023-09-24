@@ -16,8 +16,8 @@ namespace shapy
 
         QPointF velocity() const noexcept;
         void setVelocity(const QPointF & v) noexcept;
-
-        QPointF nextPos();
+        QPointF nextPos() const noexcept;
+        bool collidesWithItem(GraphicsItem *other) const noexcept;
 
     public slots:
         void move();

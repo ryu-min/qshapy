@@ -34,9 +34,16 @@ void shapy::GraphicsItem::setVelocity(const QPointF &v) noexcept
     m_velocity = v;
 }
 
-QPointF shapy::GraphicsItem::nextPos()
+QPointF shapy::GraphicsItem::nextPos() const noexcept
 {
     return pos() + m_velocity;
+}
+
+bool shapy::GraphicsItem::collidesWithItem(GraphicsItem *other) const noexcept
+{
+    QRectF thisRect = boundingRect().translated(pos());
+    QRectF otherRect = other->boundingRect().translated(other->pos());
+    return thisRect.intersects(otherRect);
 }
 
 void shapy::GraphicsItem::move()

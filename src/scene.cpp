@@ -11,6 +11,7 @@ shapy::Scene::Scene(QObject *parent)
 {
     GraphicsRectItem * firstItem = new GraphicsRectItem;
     firstItem->setPos(m_boundary->boundingRect().center() - QPointF(25, 25));
+    firstItem->setVelocity(QPointF(-1.0, -1.0));
     addShapyItem(firstItem);
 
     m_boundary->setPen(QPen(Qt::transparent, 0));
@@ -37,6 +38,7 @@ void shapy::Scene::moveItems()
     for (GraphicsItem * item : m_items) {
         moveItem(item, boundaryRect);
     }
+    resolveItemCollisions();
 }
 
 void shapy::Scene::moveItem(GraphicsItem *item, const QRectF &boundary)
@@ -80,6 +82,20 @@ void shapy::Scene::startMoving()
     m_traceTimer.start(50);
     for ( GraphicsItem * item : m_items ) {
         item->startMoving();
+    }
+}
+
+void shapy::Scene::resolveItemCollisions()
+{
+    for (int i = 0; i < m_items.size(); ++i) {
+        for (int j = i + 1; j < m_items.size(); ++j) {
+            if (m_items[i]->collidesWithItem(m_items[j])) {
+                QPointF v1 = m_items[i]->velocity();
+                QPointF v2 = m_items[j]->velocity();
+                m_items[i]->setVelocity(v2);
+                m_items[j]->setVelocity(v1);
+            }
+        }
     }
 }
 
