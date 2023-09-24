@@ -6,11 +6,18 @@
 
 shapy::GraphicsRectItem::GraphicsRectItem(QGraphicsItem *parent)
     : GraphicsItem(parent)
-{}
+{
+//    m_arrowItem->setPos(-25, -25);
+
+    m_arrowItem->setPos(25, 25);
+
+}
 
 QRectF shapy::GraphicsRectItem::boundingRect() const
 {
-    return QRectF(0, 0, 50, 50);
+    QRectF itemRect = QRectF(0, 0, 50, 50);
+    QRectF baseRect = GraphicsItem::boundingRect();
+    return itemRect.united(baseRect);
 }
 
 void shapy::GraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

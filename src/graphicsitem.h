@@ -5,6 +5,8 @@
 #include <QGraphicsColorizeEffect>
 #include <QPropertyAnimation>
 
+#include "arrowitem.h"
+
 namespace shapy
 {
     class Scene;
@@ -13,6 +15,8 @@ namespace shapy
         Q_OBJECT
     public:
         GraphicsItem(QGraphicsItem *parent = nullptr);
+
+        QRectF boundingRect() const override;
 
         QPointF velocity() const noexcept;
         void setVelocity(const QPointF & v) noexcept;
@@ -29,6 +33,8 @@ namespace shapy
         QPointF m_velocity;
         QGraphicsColorizeEffect m_colorEffect;
         QPropertyAnimation m_colorAnimation;
+        ArrowItem * m_arrowItem;
+
     };
 }
 

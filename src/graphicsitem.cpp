@@ -10,7 +10,10 @@ shapy::GraphicsItem::GraphicsItem(QGraphicsItem *parent)
     , m_velocity(QPointF(1.0, 1.0))
     , m_colorEffect()
     , m_colorAnimation()
+    , m_arrowItem(new ArrowItem(this))
 {
+    m_arrowItem->setParentItem(this);
+
     setFlag(QGraphicsItem::ItemIsMovable);
     setZValue( std::numeric_limits<qreal>::max() );
 
@@ -22,6 +25,14 @@ shapy::GraphicsItem::GraphicsItem(QGraphicsItem *parent)
     m_colorAnimation.setEndValue(QBrush(Qt::blue));
 
     setBrush(Qt::red);
+}
+
+QRectF shapy::GraphicsItem::boundingRect() const
+{
+    if (m_arrowItem->isVisible()) {
+        return m_arrowItem->boundingRect();
+    }
+    return QRectF();
 }
 
 QPointF shapy::GraphicsItem::velocity() const noexcept
@@ -53,6 +64,7 @@ void shapy::GraphicsItem::move()
 
 void shapy::GraphicsItem::startMoving()
 {
+    m_arrowItem->hide();
     if (m_colorAnimation.state() == QAbstractAnimation::Paused) {
         m_colorAnimation.resume();
     } else {
@@ -62,6 +74,7 @@ void shapy::GraphicsItem::startMoving()
 
 void shapy::GraphicsItem::stopMoving()
 {
+    m_arrowItem->show();
     m_colorAnimation.pause();
 }
 
