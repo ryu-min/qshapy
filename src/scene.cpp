@@ -1,4 +1,4 @@
-#include "shapyscene.h"
+#include "scene.h"
 
 #include <QKeyEvent>
 

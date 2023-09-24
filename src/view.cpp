@@ -1,7 +1,7 @@
-#include "shapyview.h"
+#include "view.h"
 #include <QResizeEvent>
 
-#include "shapyscene.h"
+#include "scene.h"
 
 shapy::View::View(QWidget *parent)
     : QGraphicsView(parent)

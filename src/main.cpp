@@ -1,7 +1,7 @@
 #include <QApplication>
 
-#include "shapyview.h"
-#include "shapyscene.h"
+#include "view.h"
+#include "scene.h"
 
 int main(int argc, char *argv[])
 {

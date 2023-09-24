@@ -1,4 +1,4 @@
-#include "shapygraphicsitem.h"
+#include "graphicsitem.h"
 
 #include <QGraphicsSceneMouseEvent>
 
