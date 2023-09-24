@@ -75,6 +75,7 @@ void shapy::GraphicsItem::startMoving()
 
 void shapy::GraphicsItem::stopMoving()
 {
+    m_arrowItem->setVelocity( velocity() );
     m_arrowItem->show();
     m_colorAnimation.pause();
 }

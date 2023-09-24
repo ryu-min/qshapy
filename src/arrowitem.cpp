@@ -34,12 +34,19 @@ void shapy::ArrowItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->restore();
 }
 
-QPointF shapy::ArrowItem::velocity()
+QPointF shapy::ArrowItem::velocity() const
 {
     qreal rad = m_direction * M_PI / 180;
     qreal x = qCos(rad);
     qreal y = qSin(rad);
     return QPointF(x, y);
+}
+
+void shapy::ArrowItem::setVelocity(const QPointF &v)
+{
+    qreal angle = qAtan2(v.y(), v.x()) * 180 / M_PI;
+    m_direction = angle;
+    update();
 }
 
 void shapy::ArrowItem::mousePressEvent(QGraphicsSceneMouseEvent *event)

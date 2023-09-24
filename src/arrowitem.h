@@ -11,7 +11,8 @@ namespace shapy
         QRectF boundingRect() const override;
         void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
-        QPointF velocity();
+        QPointF velocity() const;
+        void setVelocity(const QPointF & v);
 
     protected:
         void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
