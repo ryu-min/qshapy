@@ -2,11 +2,14 @@
 
 #include <QGraphicsSceneMouseEvent>
 
+#include <limits>
+
 shapy::GraphicsItem::GraphicsItem(QGraphicsItem *parent)
     : QAbstractGraphicsShapeItem(parent)
     , m_velocity(QPointF(1.0, 1.0))
 {
     setFlag(QGraphicsItem::ItemIsMovable);
+    setZValue( std::numeric_limits<qreal>::max() );
 }
 
 QPointF shapy::GraphicsItem::velocity() const noexcept
@@ -31,7 +34,6 @@ QPointF shapy::GraphicsItem::prevPos()
 
 void shapy::GraphicsItem::move()
 {
-    update();
     setPos( nextPos() );
 }
 
