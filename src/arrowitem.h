@@ -11,8 +11,17 @@ namespace shapy
         QRectF boundingRect() const override;
         void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
-    private:
+        QPointF velocity();
+
+    protected:
+        void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+        void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+        void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+
+    protected:
         qreal m_direction;
         qreal m_arrowSize;
+        QPointF m_lastPos;
+
     };
 }

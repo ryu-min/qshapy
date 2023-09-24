@@ -14,7 +14,7 @@ shapy::GraphicsItem::GraphicsItem(QGraphicsItem *parent)
 {
     m_arrowItem->setParentItem(this);
 
-    setFlag(QGraphicsItem::ItemIsMovable);
+//    setFlag(QGraphicsItem::ItemIsMovable);
     setZValue( std::numeric_limits<qreal>::max() );
 
     m_colorAnimation.setTargetObject(&m_colorEffect);
@@ -65,6 +65,7 @@ void shapy::GraphicsItem::move()
 void shapy::GraphicsItem::startMoving()
 {
     m_arrowItem->hide();
+    setVelocity(m_arrowItem->velocity());
     if (m_colorAnimation.state() == QAbstractAnimation::Paused) {
         m_colorAnimation.resume();
     } else {

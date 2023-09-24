@@ -1,20 +1,22 @@
 #include "arrowitem.h"
 
 #include <QPainter>
+#include <QGraphicsSceneMouseEvent>
 
 
 shapy::ArrowItem::ArrowItem(QGraphicsItem *parent)
     : QAbstractGraphicsShapeItem(parent)
-    , m_direction(0)
-    , m_arrowSize(40)
+    , m_direction(30)
+    , m_arrowSize(50)
 {
-    setPen(QPen(Qt::black, 3));
+    setFlag(ItemIsSelectable);
+    setPen(QPen(Qt::black, 4));
     setBrush(Qt::red);
 }
 
 QRectF shapy::ArrowItem::boundingRect() const
 {
-    return QRectF(-m_arrowSize/2, -m_arrowSize/2,
+    return QRectF(-m_arrowSize, -m_arrowSize,
                   m_arrowSize*2, m_arrowSize*2);
 }
 
@@ -30,4 +32,32 @@ void shapy::ArrowItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->drawLine(m_arrowSize, 0, m_arrowSize - 5, -5);
     painter->drawLine(m_arrowSize, 0, m_arrowSize - 5, 5);
     painter->restore();
+}
+
+QPointF shapy::ArrowItem::velocity()
+{
+    qreal rad = m_direction * M_PI / 180;
+    qreal x = qCos(rad);
+    qreal y = qSin(rad);
+    return QPointF(x, y);
+}
+
+void shapy::ArrowItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    m_lastPos = event->scenePos();
+    QAbstractGraphicsShapeItem::mousePressEvent(event);
+}
+
+void shapy::ArrowItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    QPointF delta = event->scenePos() - m_lastPos;
+    qreal angle = atan2(delta.y(), delta.x()) * 180 / M_PI;
+    m_direction = angle;
+    update();
+    QAbstractGraphicsShapeItem::mouseMoveEvent(event);
+}
+
+void shapy::ArrowItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    QAbstractGraphicsShapeItem::mouseReleaseEvent(event);
 }

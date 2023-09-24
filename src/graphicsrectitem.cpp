@@ -7,10 +7,7 @@
 shapy::GraphicsRectItem::GraphicsRectItem(QGraphicsItem *parent)
     : GraphicsItem(parent)
 {
-//    m_arrowItem->setPos(-25, -25);
-
     m_arrowItem->setPos(25, 25);
-
 }
 
 QRectF shapy::GraphicsRectItem::boundingRect() const
