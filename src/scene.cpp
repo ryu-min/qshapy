@@ -69,7 +69,7 @@ void shapy::Scene::moveItem(GraphicsItem *item, const QRectF &boundary)
 void shapy::Scene::drawTrace()
 {
     for (GraphicsItem * item : m_items) {
-        item->drawTrace(this);
+        item->drawTrace();
     }
 }
 

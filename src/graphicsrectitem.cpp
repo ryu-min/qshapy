@@ -26,7 +26,7 @@ void shapy::GraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphic
     painter->drawRect(0, 0, 50, 50);
 }
 
-void shapy::GraphicsRectItem::drawTrace(Scene *scene)
+void shapy::GraphicsRectItem::drawTrace()
 {
-    scene->addRect(boundingRect().translated(pos()), pen(), m_colorEffect.color());
+    scene()->addRect(boundingRect().translated(pos()), pen(), m_colorEffect.color());
 }

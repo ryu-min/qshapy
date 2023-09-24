@@ -13,7 +13,7 @@ namespace shapy
         void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     public slots:
-        void drawTrace(Scene * scene) override;
+        void drawTrace() override;
     };
 }
 

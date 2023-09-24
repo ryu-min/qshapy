@@ -21,7 +21,7 @@ namespace shapy
 
     public slots:
         void move();
-        virtual void drawTrace(Scene * scene) = 0;
+        virtual void drawTrace() = 0;
         virtual void startMoving();
         virtual void stopMoving();
 
