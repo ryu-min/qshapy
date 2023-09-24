@@ -23,18 +23,12 @@ shapy::Scene::Scene(QObject *parent)
     m_items.push_back(rectItem2);
     addItem(rectItem2);
 
-
-    rectItem1->setPos(50, 50);
+    rectItem1->setPos(300, 50);
     rectItem2->setPos(0, 100);
 
 
     m_boundary->setPen(QPen(Qt::transparent, 0));
     addItem(m_boundary);
-
-    m_movableItem->setBrush(QBrush(Qt::red));
-    m_movableItem->setPen(QPen(Qt::black, 1));
-    addItem(m_movableItem);
-    m_movableItem->setPos(110, 20);
 
     QObject::connect(&m_moveTimer, &QTimer::timeout, this, &shapy::Scene::moveItems);
     QObject::connect(&m_traceTimer, &QTimer::timeout, this, &shapy::Scene::drawTrace);
@@ -89,27 +83,18 @@ void shapy::Scene::stopMoving()
 {
     m_moveTimer.stop();
     m_traceTimer.stop();
-    m_animation->pause();
+    for ( GraphicsItem * item : m_items ) {
+        item->stopMoving();
+    }
 }
 
-void shapy::Scene::resumeMoving()
+void shapy::Scene::startMoving()
 {
-    /// for now this part is weard but it should leave inside item i guess
-    if ( !m_animation ) {
-        m_movableItem->setGraphicsEffect(&m_effect);
-        m_animation = new QPropertyAnimation(&m_effect, "color", this);
-        m_animation->setDuration(100000);
-        m_animation->setStartValue(QBrush(Qt::red));
-        m_animation->setKeyValueAt(0.5, QBrush(Qt::green));
-        m_animation->setEndValue(QBrush(Qt::blue));
-        m_animation->start();
-
-    } else {
-        m_animation->resume();
-    }
-
     m_moveTimer.start(10);
     m_traceTimer.start(50);
+    for ( GraphicsItem * item : m_items ) {
+        item->startMoving();
+    }
 }
 
 void shapy::Scene::keyPressEvent(QKeyEvent *event)
@@ -118,7 +103,7 @@ void shapy::Scene::keyPressEvent(QKeyEvent *event)
         if (m_moveTimer.isActive()) {
             stopMoving();
         } else {
-            resumeMoving();
+            startMoving();
         }
     }
     QGraphicsScene::keyPressEvent(event);

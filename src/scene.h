@@ -24,7 +24,7 @@ namespace shapy
         void moveItem(GraphicsItem * item, const QRectF & boundary);
         void drawTrace();
         void stopMoving();
-        void resumeMoving();
+        void startMoving();
 
     protected:
         void keyPressEvent(QKeyEvent *event);

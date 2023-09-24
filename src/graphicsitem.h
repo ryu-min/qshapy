@@ -2,6 +2,8 @@
 
 #include <QGraphicsItem>
 #include <QObject>
+#include <QGraphicsColorizeEffect>
+#include <QPropertyAnimation>
 
 namespace shapy
 {
@@ -16,14 +18,17 @@ namespace shapy
         void setVelocity(const QPointF & v) noexcept;
 
         QPointF nextPos();
-        QPointF prevPos();
 
     public slots:
         void move();
         virtual void drawTrace(Scene * scene) = 0;
+        virtual void startMoving();
+        virtual void stopMoving();
 
     protected:
         QPointF m_velocity;
+        QGraphicsColorizeEffect m_colorEffect;
+        QPropertyAnimation m_colorAnimation;
     };
 }
 
