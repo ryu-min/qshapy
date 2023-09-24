@@ -11,12 +11,22 @@ shapy::Scene::Scene(QObject *parent)
     , m_effect()
     , m_animation(nullptr)
 {
-    GraphicsRectItem * rectItem  = new GraphicsRectItem;
-    rectItem->setBrush(QBrush(Qt::blue));
-    m_items.push_back(rectItem);
-    addItem(rectItem);
+    GraphicsRectItem * rectItem1  = new GraphicsRectItem;
+    rectItem1->setBrush(QBrush(Qt::blue));
+    m_items.push_back(rectItem1);
+    addItem(rectItem1);
 
-    rectItem->setPos(50, 50);
+
+    GraphicsRectItem * rectItem2  = new GraphicsRectItem;
+    rectItem2->setBrush(QBrush(Qt::red));
+    rectItem2->setVelocity(QPointF(0.5, -0.7));
+    m_items.push_back(rectItem2);
+    addItem(rectItem2);
+
+
+    rectItem1->setPos(50, 50);
+    rectItem2->setPos(0, 100);
+
 
     m_boundary->setPen(QPen(Qt::transparent, 0));
     addItem(m_boundary);
@@ -44,19 +54,28 @@ QPointF shapy::Scene::getCenter()
 void shapy::Scene::moveItems()
 {
     QRectF boundaryRect = m_boundary->boundingRect();
-    QRectF itemRect = m_movableItem->boundingRect().translated(m_movableItem->pos() + m_velocity);
-    if (!boundaryRect.contains(itemRect)) {
-        QPointF newPos = m_movableItem->pos() + m_velocity;
-        if ( newPos.x() <= boundaryRect.left() ||
-             newPos.x() + itemRect.width() >= boundaryRect.right() ) {
-            m_velocity.setX(-m_velocity.x());
-        }
-        if ( newPos.y() <= boundaryRect.top() ||
-             newPos.y() + itemRect.height() >= boundaryRect.bottom() ) {
-            m_velocity.setY(-m_velocity.y());
-        }
+    for (GraphicsItem * item : m_items) {
+        moveItem(item, boundaryRect);
     }
-    m_movableItem->setPos( m_movableItem->pos() + m_velocity);
+}
+
+void shapy::Scene::moveItem(GraphicsItem *item, const QRectF &boundary)
+{
+    QPointF newItemPos = item->nextPos();
+    QRectF itemRect = item->boundingRect().translated(newItemPos);
+    if (!boundary.contains(itemRect)) {
+        QPointF newVelocity = item->velocity();
+        if ( newItemPos.x() <= boundary.left() ||
+             newItemPos.x() + itemRect.width() >= boundary.right() ) {
+            newVelocity.setX(-newVelocity.x());
+        }
+        if ( newItemPos.y() <= boundary.top() ||
+             newItemPos.y() + itemRect.height() >= boundary.bottom() ) {
+            newVelocity.setY(-newVelocity.y());
+        }
+        item->setVelocity(newVelocity);
+    }
+    item->move();
 }
 
 void shapy::Scene::drawTrace()

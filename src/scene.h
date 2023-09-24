@@ -20,6 +20,7 @@ namespace shapy
 
     protected:
         void moveItems();
+        void moveItem(GraphicsItem * item, const QRectF & boundary);
         void drawTrace();
         void stopMoving();
         void resumeMoving();
