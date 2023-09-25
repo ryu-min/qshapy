@@ -2,6 +2,8 @@
 
 #include <QGraphicsSceneMouseEvent>
 #include <QPen>
+#include <QAction>
+#include <QMenu>
 
 #include <limits>
 
@@ -13,8 +15,10 @@ shapy::GraphicsItem::GraphicsItem(QGraphicsItem *parent)
     , m_arrowItem(new ArrowItem(this))
 {
     m_arrowItem->setParentItem(this);
+    m_arrowItem->hide();
+    setFlag(QGraphicsItem::ItemIsMovable);
+//    setFlag(QGraphicsItem::ItemClipsChildrenToShape);
 
-//    setFlag(QGraphicsItem::ItemIsMovable);
     setZValue( std::numeric_limits<qreal>::max() );
 
     m_colorAnimation.setTargetObject(&m_colorEffect);
@@ -57,6 +61,18 @@ bool shapy::GraphicsItem::collidesWithItem(GraphicsItem *other) const noexcept
     return thisRect.intersects(otherRect);
 }
 
+void shapy::GraphicsItem::contextMenu(const QPoint & pos)
+{
+    QMenu menu;
+    QAction * changeDirection = menu.addAction("Change direction");
+    changeDirection->setCheckable(true);
+    changeDirection->setChecked(m_arrowItem->isVisible());
+    QAction *selectedAction = menu.exec(pos);
+    if (selectedAction == changeDirection) {
+        m_arrowItem->setVisible( changeDirection->isChecked());
+    }
+}
+
 void shapy::GraphicsItem::move()
 {
     setPos( nextPos() );
@@ -78,5 +94,10 @@ void shapy::GraphicsItem::stopMoving()
     m_arrowItem->setVelocity( velocity() );
     m_arrowItem->show();
     m_colorAnimation.pause();
+}
+
+void shapy::GraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+
 }
 

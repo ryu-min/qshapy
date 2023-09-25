@@ -79,7 +79,7 @@ void shapy::Scene::stopMoving()
 void shapy::Scene::startMoving()
 {
     m_moveTimer.start(10);
-    m_traceTimer.start(50);
+    m_traceTimer.start(100);
     for ( GraphicsItem * item : m_items ) {
         item->startMoving();
     }

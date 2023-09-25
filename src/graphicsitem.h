@@ -23,6 +23,8 @@ namespace shapy
         QPointF nextPos() const noexcept;
         bool collidesWithItem(GraphicsItem *other) const noexcept;
 
+        void contextMenu(const QPoint &pos);
+
     public slots:
         void move();
         virtual void drawTrace() = 0;
@@ -30,10 +32,15 @@ namespace shapy
         virtual void stopMoving();
 
     protected:
+        void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+
+    protected:
         QPointF m_velocity;
         QGraphicsColorizeEffect m_colorEffect;
         QPropertyAnimation m_colorAnimation;
         ArrowItem * m_arrowItem;
+
+
 
     };
 }

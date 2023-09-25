@@ -10,7 +10,7 @@ shapy::ArrowItem::ArrowItem(QGraphicsItem *parent)
     , m_arrowSize(50)
 {
     setFlag(ItemIsSelectable);
-    setPen(QPen(Qt::black, 4));
+    setPen(QPen(Qt::black, 3));
     setBrush(Qt::red);
 }
 
