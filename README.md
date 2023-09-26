@@ -7,3 +7,5 @@ qshapy is an animation generator for moving graphic objects. The idea for the pr
 Currently, all animations are built around rectangles, but other elements may be added in the future if necessary. The project includes the ability to add elements to any area and change the direction vector of the elements (all by right-clicking).
 
 The project uses the graphics mechanisms in Qt as its graphical foundation.
+
+![Alt Text](./images/multy.gif)
