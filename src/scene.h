@@ -6,7 +6,7 @@
 #include <QGraphicsColorizeEffect>
 #include <QPropertyAnimation>
 
-#include "graphicsrectitem.h"
+#include "items/graphicsrectitem.h"
 
 namespace shapy
 {

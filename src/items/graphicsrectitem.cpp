@@ -1,5 +1,5 @@
 #include "graphicsrectitem.h"
-#include "scene.h"
+#include "../scene.h"
 
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>

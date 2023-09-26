@@ -1,7 +1,7 @@
 #pragma once
 
 #include "graphicsitem.h"
-#include "scene.h"
+#include "../scene.h"
 
 namespace shapy
 {

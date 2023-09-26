@@ -1,6 +1,6 @@
 #include "view.h"
 #include "scene.h"
-#include "graphicsrectitem.h"
+#include "items/graphicsrectitem.h"
 
 #include <QResizeEvent>
 #include <QMenu>

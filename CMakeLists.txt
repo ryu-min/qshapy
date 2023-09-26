@@ -17,7 +17,8 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 file(GLOB_RECURSE PROJECT_SOURCES
         "src/*.cpp"
         "src/*.h"
-        "src/*.ui"
+        "src/items/*.cpp"
+        "src/items/*.h"
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

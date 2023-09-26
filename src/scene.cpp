@@ -2,6 +2,9 @@
 
 #include <QKeyEvent>
 
+#include <QTimer>
+#include <QElapsedTimer>
+
 shapy::Scene::Scene(QObject *parent)
     : QGraphicsScene(parent)
     , m_boundary(new QGraphicsRectItem(QRectF(0, 0, 400, 400)))
@@ -34,6 +37,7 @@ void shapy::Scene::addShapyItem(GraphicsItem *item)
 
 void shapy::Scene::moveItems()
 {
+    QElapsedTimer t; t.start();
     QRectF boundaryRect = m_boundary->boundingRect();
     for (GraphicsItem * item : m_items) {
         moveItem(item, boundaryRect);
@@ -78,6 +82,7 @@ void shapy::Scene::stopMoving()
 
 void shapy::Scene::startMoving()
 {
+
     m_moveTimer.start(10);
     m_traceTimer.start(100);
     for ( GraphicsItem * item : m_items ) {
@@ -87,6 +92,7 @@ void shapy::Scene::startMoving()
 
 void shapy::Scene::resolveItemCollisions()
 {
+    QElapsedTimer t; t.start();
     for (int i = 0; i < m_items.size(); ++i) {
         for (int j = i + 1; j < m_items.size(); ++j) {
             if (m_items[i]->collidesWithItem(m_items[j])) {
